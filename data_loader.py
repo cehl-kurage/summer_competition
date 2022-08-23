@@ -4,7 +4,7 @@ import pandas as pd
 data_dir = Path(__file__).resolve().parent.joinpath("data")
 
 
-def data_loader(option=None: str):
+def data_loader(option: str = None):
     """
     option: str data以下でさらにディレクトリを指定するとき
 
