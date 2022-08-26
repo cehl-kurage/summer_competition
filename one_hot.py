@@ -16,6 +16,7 @@ train_dummied["attribute_1_material_7"] = 0
 # attribute_1 == "material_8"の列がtestにはないので、追加しておく
 test_dummied["attribute_1_material_8"] = 0
 
+# TODO: nクラスならn-1列のoheでいいという考え方を適用すれば、上の追加いらなくね？
 # 頻繁に実行するファイルじゃないからパス書き込んじゃった
 train_dummied.to_csv("data/onehot/train.csv", index=False)
 test_dummied.to_csv("data/onehot/test.csv", index=False)
