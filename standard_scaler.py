@@ -4,9 +4,8 @@ import subprocess
 import pandas as pd
 import pathlib
 
-dataset = data_loader("onehot")
+dataset = data_loader("imputed")
 train, test = dataset["train"], dataset["test"]
-
 columns_need_scaling = train.drop(
     ["id", "product_code", "failure"], axis="columns"
 ).columns
@@ -24,5 +23,5 @@ test.update(_test)
 this_file = pathlib.Path(__file__).resolve()
 save_dir = this_file.parent.joinpath("data/scaled")
 
-train.to_csv(save_dir.joinpath("train.csv"))
-test.to_csv(save_dir.joinpath("test.csv"))
+train.to_csv(save_dir.joinpath("train.csv"), index=False)
+test.to_csv(save_dir.joinpath("test.csv"), index=False)
