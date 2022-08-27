@@ -9,14 +9,19 @@ train, test = dataset["train"], dataset["test"]
 
 imputer = IterativeImputer(random_state=42)
 
-common_columns = train.drop(["product_code", "failure"], axis="columns").columns
+train_need_imputing = train.drop(["product_code", "failure"], axis="columns")
+test_need_imputing = test.drop(["product_code"], axis="columns")
 failure = train.failure
-product_code_train, product_code_test = train.product_code, test.product_code
 
 print(f"imputing...")
-imputed_train = imputer.fit_transform(train[common_columns])
-imputed_test = imputer.transform(test[common_columns])
+imputed_train = imputer.fit_transform(train_need_imputing)
+imputed_test = imputer.transform(test_need_imputing)
 print("finished imputing")
 
-train = pd.DataFrame(imputed_train, columns=common_columns)
-print(train)
+_train = pd.DataFrame(imputed_train, columns=train_need_imputing.columns)
+_test = pd.DataFrame(imputed_test, columns=test_need_imputing.columns)
+train.update(_train)
+test.update(_test)
+
+train.to_csv("/home/yusaku/projects/summer_competition/data/imputed/train.csv")
+test.to_csv("/home/yusaku/projects/summer_competition/data/imputed/test.csv")
