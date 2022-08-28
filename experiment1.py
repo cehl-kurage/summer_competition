@@ -47,4 +47,7 @@ for fold, (train_indice, val_indice) in enumerate(
 print("-" * 30)
 test_pred_labels = pd.Series(np.argmax(y_test_pred, axis=1), name="failure")
 submission = pd.concat([test.id, test_pred_labels], axis="columns")
+submission.to_csv(
+    "/home/yusaku/projects/summer_competition/submission/experiment1.csv", index=False
+)
 print(f"Test => label=1: {submission.failure.sum()}")
