@@ -64,10 +64,9 @@ for fold, (train_indice, val_indice) in enumerate(
 
     y_test_pred = logi_regressor.predict_proba(X_test)
 
-# features = logi_regressor.feature_names_in_
 
 importance = np.mean(importance_list, axis=0)
-feature_importance = pd.DataFrame([importance], columns=features)
+feature_importance = pd.DataFrame([importance], columns=range(6))
 feature_importance.to_csv(
     "/home/yusaku/projects/summer_competition/results/experiment4/feature_importance.csv",
     index=False,
