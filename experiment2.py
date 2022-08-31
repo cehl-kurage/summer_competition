@@ -51,7 +51,12 @@ for fold, (train_indice, val_indice) in enumerate(
         f"Fold: {fold} => auc = {auc}, label_1: {np.argmax(y_val_pred, axis=1).sum()}(total={len(y_val_pred)})"
     )
 
-    y_test_pred = logi_regressor.predict_proba(X_test[X_train.columns])
+logi_regressor.fit(train[test.columns], train.failure)
+y_test_pred = np.array(logi_regressor.predict_proba(X_test[X_train.columns]))
+print(y_test_pred.shape)
+pd.Series(y_test_pred[:, 1], index=test_id.astype(int), name="failure").to_csv(
+    "/home/yusaku/projects/summer_competition/results/experiment2/submission_proba.csv"
+)
 
 features = logi_regressor.feature_names_in_
 importance = np.mean(importance_list, axis=0)
