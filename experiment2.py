@@ -13,7 +13,8 @@ kf = GroupKFold(n_splits=5)
 
 dataset = data_loader("scaled")
 train, test = dataset["train"], dataset["test"]
-test.drop("product_code", axis="columns", inplace=True)  # product_codeは必要ない
+test_id = test.id
+test.drop(["id", "product_code"], axis="columns", inplace=True)  # product_codeは必要ない
 
 train_failure_0 = train.query("failure == 0")
 train_failure_1 = train.query("failure == 1")
@@ -52,10 +53,19 @@ for fold, (train_indice, val_indice) in enumerate(
 
     y_test_pred = logi_regressor.predict_proba(X_test[X_train.columns])
 
+features = logi_regressor.feature_names_in_
+importance = np.mean(importance_list, axis=0)
+feature_importance = pd.DataFrame([importance], columns=features)
+feature_importance.to_csv(
+    "/home/yusaku/projects/summer_competition/results/experiment2/feature_importance.csv",
+    index=False,
+)
+
 print("-" * 30)
 test_pred_labels = pd.Series(np.argmax(y_test_pred, axis=1), name="failure")
-submission = pd.concat([test.id, test_pred_labels], axis="columns")
+submission = pd.concat([test_id.astype(int), test_pred_labels], axis="columns")
 submission.to_csv(
-    "/home/yusaku/projects/summer_competition/submission/experiment2.csv", index=False
+    "/home/yusaku/projects/summer_competition/results/experiment2/submission.csv",
+    index=False,
 )
 print(f"Test => label=1: {submission.failure.sum()}")

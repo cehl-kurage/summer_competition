@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 
 
-dataset = data_loader("imputed")
+dataset = data_loader()
 train, test = dataset["train"], dataset["test"]
 
 column_onehot = ["attribute_0", "attribute_1"]
